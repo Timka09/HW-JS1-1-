@@ -1,5 +1,9 @@
-const list = document.querySelector(".js-gallery");
-const div = document.querySelector(".lightbox");
+const getList = document.querySelector(".js-gallery");
+const getLightbox = document.querySelector(".lightbox");
+const getLightboxOverlay = document.querySelector(".lightbox__overlay");
+const getCloseBtn = document.querySelector(".lightbox__button");
+const getBidImg = document.querySelector(".lightbox__image");
+
 const galleryItems = [
   {
     preview:
@@ -67,17 +71,31 @@ const galleryItems = [
 ];
 
 const imgItem = galleryItems
-  .map((item) => {
-    return `<li class="gallery__item">
-                    <img class="gallery__image" src="${item.preview}" alt="${item.description}" />
-                </li>`;
-  })
+  .map(
+    (item) => `<li class="gallery__item">
+  <img class="gallery__image" src="${item.preview}" alt="${item.description}">
+</li>`
+  )
   .join("");
 
-list.innerHTML = imgItem;
+getList.innerHTML = imgItem;
 
-div.addEventListener("click", (event) => {
+const getImg = document.querySelector(".gallery__image");
+getList.addEventListener("click", (event) => {
   if (event.target.nodeName !== "IMG") {
     return;
   }
+
+  const test = galleryItems.forEach((item) => {
+    if (item.preview === event.target.src) {
+      getBidImg.src = item.original;
+      getBidImg.alt = item.description;
+    }
+  });
+
+  getLightbox.classList.add("is-open");
+});
+
+getCloseBtn.addEventListener("click", (event) => {
+  getLightbox.classList.remove("is-open");
 });
